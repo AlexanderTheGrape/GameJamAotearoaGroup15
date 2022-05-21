@@ -9,7 +9,8 @@ public class EggController : MonoBehaviour
     {
         unactivated,
         incubating,
-        hatched
+        hatched,
+        done
     }
     private HatchStatus hatchStatus;
 
@@ -35,7 +36,11 @@ public class EggController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (this.hatchStatus == HatchStatus.hatched)
+        {
+            HatchEgg();
+            this.hatchStatus = HatchStatus.done;
+        }
     }
 
     private void SetTimer(int milliseconds)
@@ -49,11 +54,19 @@ public class EggController : MonoBehaviour
         timer.Elapsed += new ElapsedEventHandler(EggHatchedEvent);
     }
 
-    public void EggHatchedEvent(object source, ElapsedEventArgs e)
+    private void EggHatchedEvent(object source, ElapsedEventArgs e)
     {
         this.hatchStatus = HatchStatus.hatched;
-        animator.SetBool("isHatching", false);
+    }
 
+    private void HatchEgg()
+    {
+
+        //animator.SetBool("isHatching", false);
+
+        //// TODO REMOVE THIS
+        //this.animator.SetBool("isCritter1", true);
+        //this.animator.SetBool("isHatching", false);
         switch (this.tempDegreesCelcius)
         {
             case 0:
