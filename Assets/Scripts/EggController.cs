@@ -20,11 +20,14 @@ public class EggController : MonoBehaviour
 
     private int eggIncubationPeriodMilliseconds { get; set; }
 
+    private Animator animator;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
+        animator.SetBool("isHatching", false);
     }
 
     // Update is called once per frame
@@ -36,7 +39,7 @@ public class EggController : MonoBehaviour
     private void SetTimer(int milliseconds)
     {
         // Create a timer with a ___ second interval
-        var timer = new System.Timers.Timer(milliseconds);
+        var timer = new System.Timers.Timer(5000);
         timer.AutoReset = false;
         timer.Enabled = true;
 
@@ -47,11 +50,13 @@ public class EggController : MonoBehaviour
     private void EggHatchedEvent(object source, ElapsedEventArgs e)
     {
         this.hatchStatus = HatchStatus.hatched;
+        animator.SetBool("isHatching", false);
     }
 
     public void EggIncubationStartedEvent()
     {
         this.hatchStatus = HatchStatus.incubating;
+        animator.SetBool("isHatching", true);
         SetTimer(eggIncubationPeriodMilliseconds);
     }
 
