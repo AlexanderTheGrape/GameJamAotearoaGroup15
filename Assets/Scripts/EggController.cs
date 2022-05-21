@@ -28,6 +28,8 @@ public class EggController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         animator.SetBool("isHatching", false);
+
+        this.tempDegreesCelcius = 0;
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class EggController : MonoBehaviour
     private void SetTimer(int milliseconds)
     {
         // Create a timer with a ___ second interval
-        var timer = new System.Timers.Timer(5000);
+        var timer = new System.Timers.Timer(2000);
         timer.AutoReset = false;
         timer.Enabled = true;
 
@@ -47,10 +49,26 @@ public class EggController : MonoBehaviour
         timer.Elapsed += new ElapsedEventHandler(EggHatchedEvent);
     }
 
-    private void EggHatchedEvent(object source, ElapsedEventArgs e)
+    public void EggHatchedEvent(object source, ElapsedEventArgs e)
     {
         this.hatchStatus = HatchStatus.hatched;
         animator.SetBool("isHatching", false);
+
+        switch (this.tempDegreesCelcius)
+        {
+            case 0:
+                animator.SetBool("isCritter1", true);
+                break;
+            case 1:
+                animator.SetBool("isCritter2", true);
+                break;
+            case 2:
+                animator.SetBool("isCritter3", true);
+                break;
+            default:
+                animator.SetBool("isFritter", true);
+                break;
+        }
     }
 
     public void EggIncubationStartedEvent()
