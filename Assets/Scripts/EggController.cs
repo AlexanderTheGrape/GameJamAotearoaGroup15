@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Timers;
 
-public abstract class EggController : MonoBehaviour
+public class EggController : MonoBehaviour
 {
-    private enum hatchStatus
+    private enum HatchStatus
     {
         unactivated,
         incubating,
         hatched
     }
+    private HatchStatus hatchStatus;
+
     private int tempDegreesCelcius { get; set; }
     private List<int> temperatureThresholdsForTransformation { get; set; }
+
     private int nestType { get; set; } // Change this later as I get more details on it
 
-
-    
+    private int eggIncubationPeriodMilliseconds { get; set; }
 
 
     // Start is called before the first frame update
@@ -30,15 +33,29 @@ public abstract class EggController : MonoBehaviour
 
     }
 
-    private static void SetTimer(int milliseconds)
+    private void SetTimer(int milliseconds)
     {
         // Create a timer with a ___ second interval
-        var aSetTimer = new System.Timers.Timer(milliseconds);
-        aSetTimer.AutoReset = true;
-        aSetTimer.Enabled = true;
+        var timer = new System.Timers.Timer(milliseconds);
+        timer.AutoReset = false;
+        timer.Enabled = true;
+
+        // The event to be triggered once the timer is done
+        timer.Elapsed += new ElapsedEventHandler(EggHatchedEvent);
     }
 
-    public void increaseEggTemperature(int temperatureIncreaseCelcius)
+    private void EggHatchedEvent(object source, ElapsedEventArgs e)
+    {
+        this.hatchStatus = HatchStatus.hatched;
+    }
+
+    public void EggIncubationStartedEvent()
+    {
+        this.hatchStatus = HatchStatus.incubating;
+        SetTimer(eggIncubationPeriodMilliseconds);
+    }
+
+    public void IncreaseEggTemperature(int temperatureIncreaseCelcius)
     {
         this.tempDegreesCelcius += temperatureIncreaseCelcius;
     }
