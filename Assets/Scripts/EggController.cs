@@ -36,6 +36,11 @@ public class EggController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (animator.GetBool("isFinishedHatching") == true)
+        {
+            HatchEgg();
+            this.hatchStatus = HatchStatus.done;
+        }
         if (this.hatchStatus == HatchStatus.hatched)
         {
             HatchEgg();
@@ -46,7 +51,7 @@ public class EggController : MonoBehaviour
     private void SetTimer(int milliseconds)
     {
         // Create a timer with a ___ second interval
-        var timer = new System.Timers.Timer(2000);
+        var timer = new System.Timers.Timer(5000);
         timer.AutoReset = false;
         timer.Enabled = true;
 
@@ -88,6 +93,9 @@ public class EggController : MonoBehaviour
     {
         this.hatchStatus = HatchStatus.incubating;
         animator.SetBool("isHatching", true);
+        animator.speed = 0.1f;
+
+        // Should be commented out in favour of animation-end timing
         SetTimer(eggIncubationPeriodMilliseconds);
     }
 
