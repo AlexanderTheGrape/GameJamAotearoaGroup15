@@ -14,7 +14,7 @@ public class EggController : MonoBehaviour
     private GameObject clone;
     private Egg currentEgg;
     private Transform currentEggLocation;
-
+    private GameObject warmingUpTextObj;
 
 
 
@@ -22,7 +22,7 @@ public class EggController : MonoBehaviour
     void Start()
     {
         InstantiateEgg(currentEggAsNum);
-        warmingUpText = Instantiate(warmingUpText, new Vector2(0, 0), Quaternion.identity);
+        warmingUpTextObj = Instantiate(warmingUpText, new Vector2(0, 0), Quaternion.identity);
 
     }
 
