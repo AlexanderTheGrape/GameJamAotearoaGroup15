@@ -16,6 +16,8 @@ public class EggController : MonoBehaviour
     private Transform currentEggLocation;
     private GameObject warmingUpTextObj;
 
+    private bool hasThermometer = false;
+
 
 
     // Start is called before the first frame update
@@ -66,6 +68,7 @@ public class EggController : MonoBehaviour
         Destroy(currentEgg);
         Destroy(clone);
         Destroy(warmingUpTextObj);
+        hasThermometer = false;
     }
 
     public void EggIncubationStartedEvent()
@@ -77,7 +80,12 @@ public class EggController : MonoBehaviour
     {
         currentEgg.IncreaseEggTemperatureByOne();
 
-        warmingUpTextObj = Instantiate(warmingUpText, new Vector2(5, -1), Quaternion.identity);
+        if (!hasThermometer)
+        {
+            hasThermometer = true;
+            warmingUpTextObj = Instantiate(warmingUpText, new Vector2(5, -1), Quaternion.identity);
+        }
+        
     }
 
     public void HatchEgg()
