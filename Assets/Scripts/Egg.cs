@@ -19,7 +19,7 @@ public class Egg : MonoBehaviour
 
     private int nestType { get; set; } // Change this later as I get more details on it
 
-    private int eggIncubationPeriodMilliseconds { get; set; }
+    private int EggIncubationPeriodMilliseconds { get; set; } = 5000;
 
     private Animator animator;
 
@@ -51,7 +51,7 @@ public class Egg : MonoBehaviour
     private void SetTimer(int milliseconds)
     {
         // Create a timer with a ___ second interval
-        var timer = new System.Timers.Timer(5000);
+        var timer = new System.Timers.Timer(milliseconds);
         timer.AutoReset = false;
         timer.Enabled = true;
 
@@ -96,7 +96,7 @@ public class Egg : MonoBehaviour
         animator.speed = 0.1f;
 
         // Should be commented out in favour of animation-end timing
-        SetTimer(eggIncubationPeriodMilliseconds);
+        SetTimer(EggIncubationPeriodMilliseconds);
     }
 
     public void IncreaseEggTemperature(int temperatureIncreaseCelcius)

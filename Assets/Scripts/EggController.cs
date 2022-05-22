@@ -8,16 +8,19 @@ public class EggController : MonoBehaviour
     public GameObject egg2Prefab;
     public GameObject egg3Prefab;
 
+    private int currentEggAsNum = 1;
+
     private GameObject clone;
     private Egg currentEgg;
     private Transform currentEggLocation;
 
 
 
+
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateEgg();
+        InstantiateEgg(currentEggAsNum);
     }
 
     
@@ -27,10 +30,23 @@ public class EggController : MonoBehaviour
         
     }
 
-    void InstantiateEgg()
+    void InstantiateEgg(int currentEggAsNum)
     {
-        // Instantiate at position (0, 0, 0) and zero rotation.
-        clone = Instantiate(egg1Prefab, new Vector3(0, 0, 20), Quaternion.identity);
+        switch(currentEggAsNum)
+        {
+            case 1:
+                clone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
+                break;
+            case 2:
+                clone = Instantiate(egg2Prefab, new Vector2(0, 0), Quaternion.identity);
+                break;
+            case 3:
+                clone = Instantiate(egg3Prefab, new Vector2(0, 0), Quaternion.identity);
+                break;
+            default:
+                clone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
+                break;
+        }
 
         currentEgg = clone.GetComponent<Egg>();
         currentEggLocation = clone.GetComponent<Transform>();
@@ -38,10 +54,14 @@ public class EggController : MonoBehaviour
 
     public void ResetEgg()
     {
+        RemoveEgg();
+        Start();
+    }
+
+    private void RemoveEgg()
+    {
         Destroy(currentEgg);
         Destroy(clone);
-
-        Start();
     }
 
     public void EggIncubationStartedEvent()
@@ -58,5 +78,20 @@ public class EggController : MonoBehaviour
     {
         currentEgg.HatchEgg();
         clone.transform.SetPositionAndRotation(new Vector3(0, 1, 100), Quaternion.identity);
+    }
+
+    public void NextEgg()
+    {
+        RemoveEgg();
+        
+        if (currentEggAsNum >= 3)
+        {
+            currentEggAsNum = 1;
+        } else
+        {
+            currentEggAsNum++;
+        }
+
+        InstantiateEgg(currentEggAsNum);
     }
 }
