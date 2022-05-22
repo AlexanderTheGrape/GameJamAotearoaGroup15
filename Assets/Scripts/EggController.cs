@@ -22,7 +22,7 @@ public class EggController : MonoBehaviour
     void Start()
     {
         InstantiateEgg(currentEggAsNum);
-        warmingUpTextObj = Instantiate(warmingUpText, new Vector2(0, 0), Quaternion.identity);
+        
 
     }
 
@@ -76,8 +76,7 @@ public class EggController : MonoBehaviour
     {
         currentEgg.IncreaseEggTemperatureByOne();
 
-        //this is where it happens
-
+        warmingUpTextObj = Instantiate(warmingUpText, new Vector2(5, -1), Quaternion.identity);
     }
 
     public void HatchEgg()
