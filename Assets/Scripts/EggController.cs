@@ -10,6 +10,7 @@ public class EggController : MonoBehaviour
 
     private GameObject clone;
     private Egg currentEgg;
+    private Transform currentEggLocation;
 
 
 
@@ -29,9 +30,10 @@ public class EggController : MonoBehaviour
     void InstantiateEgg()
     {
         // Instantiate at position (0, 0, 0) and zero rotation.
-        clone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
+        clone = Instantiate(egg1Prefab, new Vector3(0, 0, 20), Quaternion.identity);
 
         currentEgg = clone.GetComponent<Egg>();
+        currentEggLocation = clone.GetComponent<Transform>();
     }
 
     public void ResetEgg()
@@ -55,5 +57,6 @@ public class EggController : MonoBehaviour
     public void HatchEgg()
     {
         currentEgg.HatchEgg();
+        clone.transform.SetPositionAndRotation(new Vector3(0, 1, 100), Quaternion.identity);
     }
 }
