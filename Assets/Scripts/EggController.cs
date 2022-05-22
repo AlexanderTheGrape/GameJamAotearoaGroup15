@@ -65,6 +65,7 @@ public class EggController : MonoBehaviour
     {
         Destroy(currentEgg);
         Destroy(clone);
+        Destroy(warmingUpTextObj);
     }
 
     public void EggIncubationStartedEvent()
