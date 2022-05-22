@@ -7,6 +7,7 @@ public class EggController : MonoBehaviour
     public GameObject egg1Prefab;
     public GameObject egg2Prefab;
     public GameObject egg3Prefab;
+    public GameObject warmingUpText;
 
     private int currentEggAsNum = 1;
 
@@ -21,6 +22,8 @@ public class EggController : MonoBehaviour
     void Start()
     {
         InstantiateEgg(currentEggAsNum);
+        warmingUpText = Instantiate(warmingUpText, new Vector2(0, 0), Quaternion.identity);
+
     }
 
     
@@ -72,6 +75,9 @@ public class EggController : MonoBehaviour
     public void IncreaseEggTemperature()
     {
         currentEgg.IncreaseEggTemperatureByOne();
+
+        //this is where it happens
+
     }
 
     public void HatchEgg()
