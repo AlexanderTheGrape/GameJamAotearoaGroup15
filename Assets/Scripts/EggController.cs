@@ -8,6 +8,7 @@ public class EggController : MonoBehaviour
     public GameObject egg2Prefab;
     public GameObject egg3Prefab;
     public GameObject warmingUpText;
+    public GameObject buttonClickObject;
 
     private int currentEggAsNum = 1;
 
@@ -15,6 +16,7 @@ public class EggController : MonoBehaviour
     private Egg currentEgg;
     private Transform currentEggLocation;
     private GameObject warmingUpTextObj;
+    private AudioSource buttonClickAudio;
 
 
 
@@ -24,6 +26,7 @@ public class EggController : MonoBehaviour
         InstantiateEgg(currentEggAsNum);
         
 
+        SetupAudio();
     }
 
     
@@ -31,6 +34,11 @@ public class EggController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void SetupAudio()
+    {
+        buttonClickAudio = buttonClickObject.GetComponent<AudioSource>();
     }
 
     void InstantiateEgg(int currentEggAsNum)
@@ -75,6 +83,7 @@ public class EggController : MonoBehaviour
 
     public void IncreaseEggTemperature()
     {
+        ButtonClickSound();
         currentEgg.IncreaseEggTemperatureByOne();
 
         warmingUpTextObj = Instantiate(warmingUpText, new Vector2(5, -1), Quaternion.identity);
@@ -99,5 +108,10 @@ public class EggController : MonoBehaviour
         }
 
         InstantiateEgg(currentEggAsNum);
+    }
+
+    public void ButtonClickSound()
+    {
+        buttonClickAudio.Play(0);
     }
 }
