@@ -103,6 +103,11 @@ public class EggController : MonoBehaviour
     {
         this.tempDegreesCelcius += temperatureIncreaseCelcius;
     }
+
+    public void IncreaseEggTemperatureByOne()
+    {
+        this.tempDegreesCelcius += 1;
+    }
 }
 
 
