@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EggController : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     public GameObject egg1Prefab;
     public GameObject egg2Prefab;
     public GameObject egg3Prefab;
-    public GameObject warmingUpText;
+    public GameObject thermometerPrefab;
 
-    private int currentEggAsNum = 1;
-
-    private GameObject clone;
+    private GameObject eggClone;
     private Egg currentEgg;
     private Transform currentEggLocation;
-    private GameObject warmingUpTextObj;
 
+    private GameObject thermometerClone;
+    private Thermometer thermometer;
+
+
+    private int currentEggAsNum = 1;
     private bool hasThermometer = false;
-
 
 
     // Start is called before the first frame update
@@ -27,7 +28,6 @@ public class EggController : MonoBehaviour
         
 
     }
-
     
     // Update is called once per frame
     void Update()
@@ -40,21 +40,21 @@ public class EggController : MonoBehaviour
         switch(currentEggAsNum)
         {
             case 1:
-                clone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
+                eggClone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
                 break;
             case 2:
-                clone = Instantiate(egg2Prefab, new Vector2(0, 0), Quaternion.identity);
+                eggClone = Instantiate(egg2Prefab, new Vector2(0, 0), Quaternion.identity);
                 break;
             case 3:
-                clone = Instantiate(egg3Prefab, new Vector2(0, 0), Quaternion.identity);
+                eggClone = Instantiate(egg3Prefab, new Vector2(0, 0), Quaternion.identity);
                 break;
             default:
-                clone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
+                eggClone = Instantiate(egg1Prefab, new Vector2(0, 0), Quaternion.identity);
                 break;
         }
 
-        currentEgg = clone.GetComponent<Egg>();
-        currentEggLocation = clone.GetComponent<Transform>();
+        currentEgg = eggClone.GetComponent<Egg>();
+        currentEggLocation = eggClone.GetComponent<Transform>();
     }
 
     public void ResetEgg()
@@ -66,8 +66,9 @@ public class EggController : MonoBehaviour
     private void RemoveEgg()
     {
         Destroy(currentEgg);
-        Destroy(clone);
-        Destroy(warmingUpTextObj);
+        Destroy(eggClone);
+        Destroy(thermometer);
+        Destroy(thermometerClone);
         hasThermometer = false;
     }
 
@@ -78,20 +79,22 @@ public class EggController : MonoBehaviour
 
     public void IncreaseEggTemperature()
     {
-        currentEgg.IncreaseEggTemperatureByOne();
-
         if (!hasThermometer)
         {
             hasThermometer = true;
-            warmingUpTextObj = Instantiate(warmingUpText, new Vector2(5, -1), Quaternion.identity);
+            thermometerClone = Instantiate(thermometerPrefab, new Vector2(5, -1), Quaternion.identity);
+            thermometer = thermometerClone.GetComponent<Thermometer>();
         }
+
+        currentEgg.IncreaseEggTemperatureByOne();
+        thermometer.IncreaseThermometerTemperatureByOne();
         
     }
 
     public void HatchEgg()
     {
         currentEgg.HatchEgg();
-        clone.transform.SetPositionAndRotation(new Vector3(0, 1, 100), Quaternion.identity);
+        eggClone.transform.SetPositionAndRotation(new Vector3(0, 1, 100), Quaternion.identity);
     }
 
     public void NextEgg()
@@ -107,5 +110,10 @@ public class EggController : MonoBehaviour
         }
 
         InstantiateEgg(currentEggAsNum);
+    }
+
+    private void UpdateThermometer()
+    {
+
     }
 }
